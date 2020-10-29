@@ -34,7 +34,7 @@ export default {
           {
             withCredentials: false,
             type: 'application/x-mpegURL',
-            src: '//ivi.bupt.edu.cn/hls/chchd.m3u8'
+            src: 'http://ivi.bupt.edu.cn/hls/chchd.m3u8'
           }
         ],
         controlBar: {
