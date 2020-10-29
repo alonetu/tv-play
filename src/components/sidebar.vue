@@ -10,7 +10,7 @@
       <template v-for="menu in menuList">
         <el-submenu
           v-if="menu.children && menu.children.length !== 0"
-          :index="menu.id"
+          :index="menu.url"
           :key="menu.id"
         >
           <template slot="title">
@@ -19,7 +19,7 @@
           <el-menu-item
             v-for="childMenu in menu.children"
             :key="childMenu.id"
-            :index="childMenu.id"
+            :index="childMenu.url"
             @click="activePage(childMenu)"
           >
             <span slot="title" style="font-size: 18px;">{{ childMenu.name }}</span>
@@ -27,7 +27,7 @@
         </el-submenu>
         <el-menu-item
           v-else
-          :index="menu.id"
+          :index="menu.url"
           :key="menu.id"
           @click="activePage(menu)"
         >
@@ -64,12 +64,7 @@ export default {
   },
   data() {
     return {
-      cameras: [
-        {
-          id: 1,
-          name: 'side-bar'
-        }
-      ],
+      cameras: [],
       id: 0,
       last: 0,
       curIndex: ''
