@@ -1,7 +1,7 @@
 <template>
   <div class="navbar">
-    <span class="menu-text">电视直播平台</span>
-    <el-menu
+    <span class="menu-text">电视直播</span>
+    <!-- <el-menu
       class="navbar-menu"
       mode="horizontal"
       background-color="transparent"
@@ -17,7 +17,7 @@
       >
         {{ item.label }}
       </el-menu-item>
-    </el-menu>
+    </el-menu> -->
   </div>
 </template>
 
@@ -30,7 +30,7 @@ export default {
       navMenu: [
         {
           path: '/vue-player-video',
-          label: 'CCTV-6'
+          label: 'vue-video-player'
         }
       ]
     }

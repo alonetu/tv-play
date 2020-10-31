@@ -1,5 +1,12 @@
 <template>
   <div v-show="isShowSidebar" :style="{ width, height }">
+    <el-input 
+      v-model="keyword" 
+      placeholder="请输入关键字查询" 
+      @keyup.enter.native="searchSidebar"
+    >
+      <i slot="suffix" class="el-input__icon el-icon-search"></i>
+    </el-input>
     <el-menu
       class="common-sidebar"
       background-color="transparent"
@@ -7,31 +14,31 @@
       active-text-color="#ffd04b"
       :default-active="curIndex"
     >
-      <template v-for="menu in menuList">
+      <template v-for="menu in menuSide">
         <el-submenu
           v-if="menu.children && menu.children.length !== 0"
-          :index="menu.id"
+          :index="menu.url"
           :key="menu.id"
         >
           <template slot="title">
-            <span slot="title" style="font-size: 18px;">{{ menu.name }}</span>
+            <span slot="title" style="font-size: 18px" v-html="getMenuName(menu.name)"></span>
           </template>
           <el-menu-item
             v-for="childMenu in menu.children"
             :key="childMenu.id"
-            :index="childMenu.id"
+            :index="childMenu.url"
             @click="activePage(childMenu)"
           >
-            <span slot="title" style="font-size: 18px;">{{ childMenu.name }}</span>
+            <span slot="title" style="font-size: 18px" v-html="getMenuName(childMenu.name)"></span>
           </el-menu-item>
         </el-submenu>
-        <el-menu-item
-          v-else
-          :index="menu.id"
-          :key="menu.id"
+        <el-menu-item 
+          v-else 
+          :index="menu.url" 
+          :key="menu.id" 
           @click="activePage(menu)"
         >
-          <span slot="title" style="font-size: 18px;">{{ menu.name }}</span>
+          <span slot="title" style="font-size: 18px" v-html="getMenuName(menu.name)"></span>
         </el-menu-item>
       </template>
     </el-menu>
@@ -39,56 +46,50 @@
 </template>
 
 <script>
-
 export default {
   props: {
     menuList: {
-      type: Array
+      type: Array,
     },
     isShowSidebar: {
       type: Boolean,
-      default: true
+      default: true,
     },
     width: {
       type: String,
-      default: '20%'
+      default: '20%',
     },
     height: {
       type: String,
-      default: '100%'
+      default: '100%',
     },
     curId: {
       type: String,
-      default: ''
-    }
+      default: '',
+    },
   },
   data() {
     return {
-      cameras: [
-        {
-          id: 1,
-          name: 'side-bar'
-        }
-      ],
       id: 0,
       last: 0,
-      curIndex: ''
+      curIndex: '',
+      keyword: '',
+      menuInit: [],
+      menuSide: [],
     }
   },
   watch: {
-    menuList: {
-      handler(val) {
-        this.cameras = JSON.parse(JSON.stringify(val))
-      }
-    },
     curId(val) {
       this.curIndex = val
-    }
+    },
+  },
+  mounted() {
+    this.menuSide = this.menuList
+    this.curIndex = this.menuList[0].url
   },
   methods: {
     // 点击相机单例
     activePage(node) {
-      console.log(node)
       this.throttle(() => {
         this.$emit('playVideo', node.url)
       }, 400)()
@@ -102,8 +103,24 @@ export default {
           func.apply(this)
         }
       }
+    },
+    // 处理侧边栏搜索
+    searchSidebar() {
+      if (!this.keyword) {
+        this.menuSide = this.menuList
+      }
+      let keyArr = []
+      this.menuList.forEach(item => {
+        if (item.name.indexOf(this.keyword) !== -1) {
+          keyArr.push(item)
+        }
+      })
+      this.menuSide = keyArr
+    },
+    getMenuName(name = '') {
+      return name.replace(this.keyword, `<span style="color: red;">${ this.keyword }</span>`)
     }
-  }
+  },
 }
 </script>
 
@@ -111,5 +128,9 @@ export default {
 .common-sidebar {
   overflow: auto;
   border: none;
+}
+.el-input__inner {
+  background-color: #2d3436;
+  color: #fff;
 }
 </style>

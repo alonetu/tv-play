@@ -18,39 +18,47 @@ import { videoPlayer } from 'vue-video-player'
 
 export default {
   components: {
-    videoPlayer
+    videoPlayer,
   },
   props: {
     url: {
       type: String,
-      default: ''
-    }
+      default: '',
+    },
   },
   data() {
     return {
       playerOptions: {
-        autoplay: true, //如果true,浏览器准备好时开始回放
+        autoplay: true, //如果true,浏览器准备好时开始播放
         sources: [
           {
             withCredentials: false,
             type: 'application/x-mpegURL',
-            src: 'http://ivi.bupt.edu.cn/hls/chchd.m3u8'
+            src: 'http://ivi.bupt.edu.cn/hls/cctv1hd.m3u8',
           }
         ],
         controlBar: {
           timeDivider: false,
-          durationDisplay: false
+          durationDisplay: false,
         },
-        flash: { hls: { withCredentials: false } },
-        html5: { hls: { withCredentials: false } },
-        poster: ''
-      }
+        flash: {
+          hls: {
+            withCredentials: false,
+          },
+        },
+        html5: {
+          hls: {
+            withCredentials: false,
+          },
+        },
+        poster: '',
+      },
     }
   },
   watch: {
     url(val) {
       this.playerOptions.sources[0].src = val
-    }
+    },
   },
   methods: {
     onPlayerPlay() {
@@ -61,19 +69,19 @@ export default {
     },
     playerReadied(player) {
       var hls = player.tech({ IWillNotUseThisInPlugins: true }).hls
-      player.tech_.hls.xhr.beforeRequest = function(options) {
+      player.tech_.hls.xhr.beforeRequest = function (options) {
         return options
       }
-    }
+    },
   },
   computed: {
     player() {
       return this.$refs.videoPlayer.player
-    }
+    },
   },
   beforeDestroy() {
     this.$refs.videoPlayer.dispose()
-  }
+  },
 }
 </script>
 
