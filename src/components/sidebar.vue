@@ -1,5 +1,5 @@
 <template>
-  <div v-show="isShowSidebar" :style="{ width, height }">
+  <div :style="{ width, height }">
     <el-input 
       v-model="keyword" 
       placeholder="请输入关键字查询" 
@@ -51,10 +51,6 @@ export default {
     menuList: {
       type: Array,
     },
-    isShowSidebar: {
-      type: Boolean,
-      default: true,
-    },
     width: {
       type: String,
       default: '20%',
@@ -62,47 +58,23 @@ export default {
     height: {
       type: String,
       default: '100%',
-    },
-    curId: {
-      type: String,
-      default: '',
-    },
+    }
   },
   data() {
     return {
-      id: 0,
-      last: 0,
       curIndex: '',
       keyword: '',
-      menuInit: [],
       menuSide: [],
     }
-  },
-  watch: {
-    curId(val) {
-      this.curIndex = val
-    },
   },
   mounted() {
     this.menuSide = this.menuList
     this.curIndex = this.menuList[0].url
   },
   methods: {
-    // 点击相机单例
+    // 点击侧边栏
     activePage(node) {
-      this.throttle(() => {
-        this.$emit('playVideo', node.url)
-      }, 400)()
-    },
-    // 节流，点击菜单栏，0.4秒内点击多次只执行一次
-    throttle(func, interval = 400) {
-      return () => {
-        let now = +new Date()
-        if (now - this.last > interval) {
-          this.last = now
-          func.apply(this)
-        }
-      }
+      this.$emit('playVideo', node.url)
     },
     // 处理侧边栏搜索
     searchSidebar() {
@@ -117,6 +89,7 @@ export default {
       })
       this.menuSide = keyArr
     },
+    // 搜索高亮
     getMenuName(name = '') {
       return name.replace(this.keyword, `<span style="color: red;">${ this.keyword }</span>`)
     }
