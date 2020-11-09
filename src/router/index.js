@@ -15,6 +15,7 @@ const router = new Router({
           component: () => import('@/views/vue-player-video/')
         }
       ],
+      redirect: '/vue-player-video'
     },
   ]
 })
