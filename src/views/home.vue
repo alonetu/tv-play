@@ -1,9 +1,5 @@
 <template>
   <div class="home">
-    <!-- 顶部导航栏 -->
-    <div class="container-header">
-      <navbar />
-    </div>
     <!-- 内容显示区 路由跳转 -->
     <div class="container-router">
       <router-view />
@@ -12,13 +8,8 @@
 </template>
 
 <script>
-import Navbar from '@/components/navbar'
-
 export default {
-  name: 'home',
-  components: {
-    Navbar,
-  },
+  name: 'home'
 }
 </script>
 
@@ -27,11 +18,8 @@ export default {
   height: 100vh;
   width: 100%;
   background-size: 100% 100%;
-  .container-header {
-    height: 60px;
-  }
   .container-router {
-    height: calc(100vh - 60px);
+    height: 100vh;
     overflow: hidden;
   }
 }

@@ -1,5 +1,5 @@
 <template>
-  <div :style="{ width, height }">
+  <div :style="{ width, height }" style="padding: 8px 0;">
     <el-input 
       v-model="keyword" 
       placeholder="请输入关键字查询" 

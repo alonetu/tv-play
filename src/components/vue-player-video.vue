@@ -29,7 +29,7 @@ export default {
   data() {
     return {
       playerOptions: {
-        autoplay: true, //如果true,浏览器准备好时开始播放
+        autoplay: false, //如果true,浏览器准备好时开始播放
         sources: [
           {
             withCredentials: false,
